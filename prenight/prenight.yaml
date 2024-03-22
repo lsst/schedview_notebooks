@@ -1,0 +1,14 @@
+title: prenight
+description: Pre-night briefing
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  day_obs:
+    type: string
+    description: Date of observation (YYYY-MM-DD)
+    default: "2025-05-02"
+  sim_version:
+    type: string
+    description: The version of the simulation to use
+    default: "3.4"
