@@ -1,0 +1,10 @@
+title: trivial
+description: A Trivial Test
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  value:
+    type: number
+    description: A starting value
+    default: 10
