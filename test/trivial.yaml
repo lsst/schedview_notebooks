@@ -5,6 +5,6 @@ authors:
     slack: neilsen
 parameters:
   value:
-    type: int
+    type: number
     description: A starting value
     default: 10
