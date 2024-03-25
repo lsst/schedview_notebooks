@@ -1,0 +1,15 @@
+title: nightsum
+description: Night report inspired by the DES nightsum tool
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  day_obs:
+    type: string
+    description: Date of observation (YYYY-MM-DD)
+    default: "2025-11-10"
+  sim_version:
+    type: string
+    description: The version of the simulation to use
+    default: "3.4"
+
