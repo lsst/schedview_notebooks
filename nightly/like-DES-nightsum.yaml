@@ -7,7 +7,7 @@ parameters:
   day_obs:
     type: string
     description: Date of observation (YYYY-MM-DD)
-    default: "2025-11-10"
+    default: "2025-11-21"
   sim_version:
     type: string
     description: The version of the simulation to use
