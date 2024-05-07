@@ -11,8 +11,8 @@ parameters:
   sim_date:
     type: string
     description: Date of the simulation (YYYY-MM-DD)
-    default: "2024-04-09"
+    default: "2024-01-04"
   sim_index:
     type: string
     description: The index of the simulation (within its date)
-    default: "2"
+    default: "1"
