@@ -1,4 +1,4 @@
-title: OR4_nightsum
+title: consdb_nightsum
 description: Night report inspired by the DES nightsum tool
 authors:
   - name: Eric H. Neilsen, Jr.
@@ -7,7 +7,7 @@ parameters:
   day_obs:
     type: string
     description: Date of observation (YYYY-MM-DD)
-    default: "2025-11-21"
+    default: "2024-06-18"
   instrument:
     type: string
     description: "The instrument (latiss, lsstcomcam, or lsstcomcamsim)"
