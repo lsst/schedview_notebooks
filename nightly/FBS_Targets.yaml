@@ -17,7 +17,7 @@ parameters:
     description: "Instrument (camera)"
     default: "latiss"
   salindex:
-    type: int
+    type: integer
     description: "Sal index to check for EFD Targets and Observations"
     default: 2
   timezone:
