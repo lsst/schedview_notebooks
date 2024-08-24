@@ -1,0 +1,26 @@
+title: FBS_Targets
+description: Comparison of FBS Targets/Observations to Visits
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs:
+    type: string
+    description: "Date of observation (YYYY-MM-DD)"
+    default: "Today"
+  telescope:
+    type: string
+    description: "AuxTel or SimonyiTel"
+    default: "AuxTel"
+  instrument:
+    type: string
+    description: "Instrument (camera)"
+    default: "latiss"
+  salindex:
+    type: integer
+    description: "Sal index to check for EFD Targets and Observations"
+    default: 2
+  timezone:
+    type: string
+    description: "Timezone for plot"
+    default: "UTC"
