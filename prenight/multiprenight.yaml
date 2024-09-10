@@ -11,4 +11,4 @@ parameters:
   sim_date:
     type: string
     description: Date on which simulations were run (YYYY-MM-DD)
-    default: "2023-09-04"
+    default: "2024-09-04"
