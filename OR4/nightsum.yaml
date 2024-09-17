@@ -1,0 +1,20 @@
+title: nightsum
+description: Night report inspired by the DES nightsum tool
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  day_obs:
+    type: string
+    description: Date of observation (YYYY-MM-DD)
+    default: "2024-06-26"
+  instrument:
+    type: string
+    description: The instrument for which to report
+    default: "lsstcomcamsim"
+  previous_visits_fname:
+    type: string
+    description: The (lsst.resources) URI from which to query previous exposures.
+    default: ""
+
+
