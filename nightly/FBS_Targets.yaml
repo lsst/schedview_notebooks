@@ -11,15 +11,15 @@ parameters:
   telescope:
     type: string
     description: "AuxTel or SimonyiTel"
-    default: "AuxTel"
+    default: "SimonyiTel"
   instrument:
     type: string
-    description: "Instrument (camera)"
-    default: "latiss"
+    description: "Instrument (latiss, lsstcomcam)"
+    default: "lsstcomcam"
   salindex:
     type: integer
     description: "Sal index to check for EFD Targets and Observations (1/2/3)"
-    default: 2
+    default: 1
   timezone:
     type: string
     description: "Timezone for plot"
