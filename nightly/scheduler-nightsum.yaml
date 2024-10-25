@@ -1,5 +1,5 @@
 title: nightsum
-description: Night report inspired by the DES nightsum tool
+description: Night summary for scheduler analysis
 authors:
   - name: Eric H. Neilsen, Jr.
     slack: neilsen
@@ -8,8 +8,8 @@ parameters:
     type: string
     description: Date of observation (YYYY-MM-DD)
     default: "2025-11-21"
-  sim_version:
+  visit_origin:
     type: string
-    description: The version of the simulation to use
-    default: "3.4"
+    description: The instrument (if querying from consdb) or simulation version to use
+    default: "4.0"
 
