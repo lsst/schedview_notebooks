@@ -10,8 +10,8 @@ parameters:
     default: "2024-06-26"
   instrument:
     type: string
-    description: The instrument for which to report
-    default: "lsstcomcamsim"
+    description: Instrument (lsstcomcam, latiss, lsstcomcamsim)
+    default: "lsstcomcam"
   previous_visits_fname:
     type: string
     description: The (lsst.resources) URI from which to query previous exposures.
