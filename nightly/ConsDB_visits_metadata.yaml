@@ -1,0 +1,19 @@
+title: ConsDB_visits_metadata
+description: Summary of ConsDB Metadata
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs_min:
+    type: string
+    description: "Starting day_obs for summary (YYYY-MM-DD)"
+    default: "2024-10-24"
+  day_obs_max:
+    type: string
+    description: "Ending day_obs for summary (YYYY-MM-DD)"
+    default: "Today"
+  instrument:
+    type: string
+    description: "Instrument (latiss, lsstcomcam)"
+    default: "lsstcomcam"
+
