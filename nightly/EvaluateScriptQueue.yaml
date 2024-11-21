@@ -12,7 +12,10 @@ parameters:
     type: string
     description: "Ending dayobs (YYYY-MM-DD) (same as day_obs_min = 1 night)"
     default: "2024-11-04" 
-  newest_first: 
-    type: boolean
-    description: "Display messages from most recent to oldest"
-    default: True
+  time_order: 
+    type: string
+    description: "Order to display messages"
+    default: 'newest first'
+    values:
+        - 'newest first'
+        - 'oldest first'
