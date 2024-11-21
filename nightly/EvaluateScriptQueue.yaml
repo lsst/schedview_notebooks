@@ -1,4 +1,4 @@
-title: Investigate Scriptqueue
+title: Scriptqueue
 description: A short investigation of the scriptqueue 
 authors:
   - name: Lynne Jones
@@ -16,6 +16,6 @@ parameters:
     type: string
     description: "Order to display messages"
     default: 'newest first'
-    values:
+    options:
         - 'newest first'
         - 'oldest first'
