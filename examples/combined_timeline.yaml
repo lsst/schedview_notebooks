@@ -4,7 +4,7 @@ authors:
   - name: Eric H. Neilsen, Jr.
     slack: neilsen
 parameters:
-  day_obs:
+  night:
     type: string
     description: Date of observation (YYYY-MM-DD)
     default: "2024-11-15"
