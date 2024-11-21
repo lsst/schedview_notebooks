@@ -7,13 +7,13 @@ parameters:
   day_obs_min:
     type: string
     description: "Starting dayobs (YYYY-MM-DD)"
-    default: "2024-11-04"
+    default: "2024-11-19"
   day_obs_max:
     type: string
-    description: "Ending dayobs (YYYY-MM-DD) (same as day_obs_min = 1 night)"
-    default: "2024-11-04" 
+    description: "Ending dayobs (YYYY-MM-DD) (if max == min, then messages cover one night)"
+    default: "2024-11-19" 
   time_order: 
-    type: string
+    type: radio
     description: "Order to display messages"
     default: 'newest first'
     options:
