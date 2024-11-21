@@ -13,8 +13,8 @@ parameters:
     description: "Ending dayobs (YYYY-MM-DD) (if max == min, then messages cover one night)"
     default: "2024-11-19" 
   time_order: 
-    type: radio
-    description: "Order to display messages"
+    type: string
+    description: "Order to display messages ('newest first' or 'oldest first')"
     default: 'newest first'
     options:
         - 'newest first'
