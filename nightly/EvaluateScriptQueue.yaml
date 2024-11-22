@@ -7,11 +7,11 @@ parameters:
   day_obs_min:
     type: string
     description: "Starting dayobs (YYYY-MM-DD)"
-    default: "2024-11-19"
+    default: "Yesterday"
   day_obs_max:
     type: string
     description: "Ending dayobs (YYYY-MM-DD) (if max == min, then messages cover one night)"
-    default: "2024-11-19" 
+    default: "Today" 
   time_order: 
     type: string
     description: "Order to display messages ('newest first' or 'oldest first')"
