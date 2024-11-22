@@ -1,5 +1,5 @@
-title: visittable
-description: Example visit table notebook
+title: ddfcadence
+description: Example DDF cadence plot notebook
 authors:
   - name: Eric H. Neilsen, Jr.
     slack: neilsen
@@ -7,9 +7,12 @@ parameters:
   night:
     type: string
     description: Date of observation (YYYY-MM-DD)
-    default: "2024-11-15"
+    default: "2026-11-22"
   visit_origin:
     type: string
     description: The instrument (if querying from consdb) or simulation version to use
-    default: "lsstcomcam"
-
+    default: "3.5"
+  time_window_nights:
+    type: int
+    descripton: Number of nights covered by the cadence plot, ending in the date of observation
+    default: 90
