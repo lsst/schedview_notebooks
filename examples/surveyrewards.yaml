@@ -1,0 +1,19 @@
+title: visittable
+description: Example visit table notebook
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  night:
+    type: string
+    description: Date of observation (YYYY-MM-DD)
+    default: "2024-11-20"
+  sim_date:
+    type: string
+    description: Date of observation (YYYY-MM-DD)
+    default: "2024-11-20"
+  sim_index:
+    type: integer
+    description: Index of simulation taken on day
+    default: 1
+    
