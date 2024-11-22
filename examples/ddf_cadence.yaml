@@ -13,6 +13,6 @@ parameters:
     description: The instrument (if querying from consdb) or simulation version to use
     default: "3.5"
   time_window_nights:
-    type: int
+    type: integer
     descripton: Number of nights covered by the cadence plot, ending in the date of observation
     default: 90
