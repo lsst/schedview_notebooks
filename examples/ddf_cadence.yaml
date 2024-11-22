@@ -14,5 +14,5 @@ parameters:
     default: "3.5"
   time_window_nights:
     type: integer
-    descripton: Number of nights covered by the cadence plot, ending in the date of observation
+    description: Number of nights covered by the cadence plot, ending in the date of observation
     default: 90
