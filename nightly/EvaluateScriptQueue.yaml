@@ -1,5 +1,5 @@
 title: Scriptqueue
-description: A short investigation of the scriptqueue 
+description: See what is going on with the scriptqueue
 authors:
   - name: Lynne Jones
     slack: Lynne
@@ -10,7 +10,7 @@ parameters:
     default: "Yesterday"
   day_obs_max:
     type: string
-    description: "Ending dayobs (YYYY-MM-DD) (if max == min, then messages cover one night)"
+    description: "Ending dayobs (YYYY-MM-DD) (if max==min, then messages cover one night)"
     default: "Yesterday" 
   time_order: 
     type: string
@@ -19,3 +19,8 @@ parameters:
     options:
         - 'newest first'
         - 'oldest first'
+  show_salIndex:
+    type: string
+    description: "List of salIndexes to show in the notebook. 1/2/3=Maintel/Auxtel/OCS queues. 0=logs, 4=errors, 5=exposures. Default 'all'."
+    default: 'all'
+    
