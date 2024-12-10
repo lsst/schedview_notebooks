@@ -10,7 +10,7 @@ parameters:
     default: "Yesterday"
   day_obs_max:
     type: string
-    description: "Ending dayobs (YYYY-MM-DD) (if max == min, then messages cover one night)"
+    description: "Ending dayobs (YYYY-MM-DD) (if max==min, then messages cover one night)"
     default: "Yesterday" 
   time_order: 
     type: string
@@ -21,6 +21,6 @@ parameters:
         - 'oldest first'
   show_salIndex:
     type: string
-    description: "List of salIndexes to show in the notebook.<br> 1/2/3=Maintel/Auxtel/OCS queues. 0=logs, -1=exposures, 4=errors. Default 'all'."
+    description: "List of salIndexes to show in the notebook. 1/2/3=Maintel/Auxtel/OCS queues. 0=logs, -1=exposures, 4=errors. Default 'all'."
     default: 'all'
     
