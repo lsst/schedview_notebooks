@@ -1,4 +1,4 @@
-title: event_timeline
+title: Timelines
 description: Example use of a schedview event timeline
 authors:
   - name: Eric H. Neilsen, Jr.
@@ -7,9 +7,12 @@ parameters:
   night:
     type: string
     description: Date of observation (YYYY-MM-DD)
-    default: "2024-11-15"
+    default: "2024-10-08"
   telescope:
     type: string
     description: The telescope to get log messages for
     default: "Simonyi"
-    
+  visit_origin:
+    type: string
+    description: Source from which to query visits
+    default: "lsstcomcam"
