@@ -23,4 +23,13 @@ parameters:
     type: string
     description: "List of salIndexes to show in the notebook. 1/2/3=Maintel/Auxtel/OCS queues. 0=logs, 4=errors, 5=exposures. Default 'all'."
     default: 'all'
+  show_table:
+    type: boolean
+    description: "Show results in tabular form"
+    default: true
+  show_timeline:
+    type: boolean
+    description: "Show results as a graphical timeline"
+    default: false
+
     
