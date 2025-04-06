@@ -10,16 +10,8 @@ parameters:
     default: "Yesterday"
   telescope:
     type: string
-    description: "AuxTel or SimonyiTel"
-    default: "SimonyiTel"
-  instrument:
-    type: string
-    description: "Instrument (latiss, lsstcomcam)"
-    default: "lsstcomcam"
-  salindex:
-    type: integer
-    description: "Sal index to check for EFD Targets and Observations (1/2/3)"
-    default: 1
+    description: "AuxTel or Simonyi"
+    default: "Simonyi"
   timezone:
     type: string
     description: "Timezone for plot"
