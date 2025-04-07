@@ -1,0 +1,14 @@
+title: compareprenight
+description: Compare a night to its pre-night simulations
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  day_obs:
+    type: string
+    description: The night of observing (YYYY-MM-DD)
+    default: "2024-09-04"
+  sim_date:
+    type: string
+    description: Date on which simulations were run (YYYY-MM-DD)
+    default: "2024-09-04"
