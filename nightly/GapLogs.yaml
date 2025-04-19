@@ -1,0 +1,14 @@
+title: Gap Logs
+description: Pull up the ScriptQueue during gaps between visits
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs:
+    type: string
+    description: "Date of observation (YYYY-MM-DD)"
+    default: "Yesterday"
+  time_gap:
+    type: number
+    description: "Minimum gap between visits to consider  (minutes)"
+    default: 50
