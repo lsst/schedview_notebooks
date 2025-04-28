@@ -7,8 +7,8 @@ parameters:
   day_obs:
     type: string
     description: Date of observation (YYYY-MM-DD)
-    default: "2025-05-03"
+    default: "2025-04-28"
   earliest_sim:
     type: string
     description: Date of the earliest simulation to show (YYYY-MM-DD)
-    default: "2023-01-01"
+    default: "2025-04-20"
