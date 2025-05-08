@@ -1,0 +1,15 @@
+title: progressmockup
+description: Mockup of an LSST progress report
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  baseline:
+    type: string
+    description: Baseline version
+    default: "4.3"
+  day_obs_iso:
+    type: string
+    description: YYYY-MM-DD for which to mock the progress
+    default: "2033-04-02"
+
