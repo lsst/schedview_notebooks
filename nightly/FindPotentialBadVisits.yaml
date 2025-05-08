@@ -1,0 +1,14 @@
+title: Potential Bad Visits
+description: Look for potential bad visits (EFD + RA zeropoints) in BLOCK-365
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs:
+    type: string
+    description: "Day obs of observing (YYYY-MM-DD)"
+    default: "Yesterday"
+  show_joined:
+    type: boolean
+    description: "Show dataframe of joined target/observation/nextvisit/visits"
+    default: false
