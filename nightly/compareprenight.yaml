@@ -1,18 +1,18 @@
-title: multiprenight
-description: Pre-night briefing comparing multiple simulations
+title: compareprenight
+description: Compare a night to its pre-night simulations
 authors:
   - name: Eric H. Neilsen, Jr.
     slack: neilsen
 parameters:
   day_obs:
     type: string
-    description: The date simulated (YYYY-MM-DD)
+    description: The night of observing (YYYY-MM-DD)
     default: "2025-05-05"
   sim_date:
     type: string
     description: Date on which simulations were run (YYYY-MM-DD)
     default: "2025-05-05"
-  telescope:
+  visit_origin:
     type: string
-    description: The telescope (simonyi or auxtel).
-    default: "simonyi"
+    description: The instrument (if querying from consdb) or simulation version to use
+    default: "lsstcam"

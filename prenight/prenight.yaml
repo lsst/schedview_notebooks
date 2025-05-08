@@ -7,11 +7,11 @@ parameters:
   day_obs:
     type: string
     description: Date of observation (YYYY-MM-DD)
-    default: "2025-04-01"
+    default: "2025-04-28"
   sim_date:
     type: string
     description: Date of the simulation (YYYY-MM-DD)
-    default: "2024-04-01"
+    default: "2025-04-28"
   sim_index:
     type: string
     description: The index of the simulation (within its date)
