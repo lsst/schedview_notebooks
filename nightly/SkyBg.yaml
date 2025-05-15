@@ -1,0 +1,22 @@
+title: Sky Background Prediction
+description: Predict the skybrightness background
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  ra:
+    type: string
+    description: "RA (degrees) to check. Use 'all' for full sky."
+    default: "all"
+  dec:
+    type: string
+    description: "Declination (degrees) to check. Use 'all' for full sky."
+    default: "all"
+  time:
+    type: string
+    description: "Time to check (astropy iso format), or 'now' for Time.now()"
+    default: "now"
+  bands:
+    type: string
+    description: "Bands to check. Single band (g) or multiple (ugr). 'all' will use all bands."
+    default: "all"
