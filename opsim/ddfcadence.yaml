@@ -1,0 +1,11 @@
+title: DDF cadence plots
+description: DDF cadence plots for a single opsim simulation
+authors:
+  - name: Eric H. Neilsen, Jr.
+    slack: neilsen
+parameters:
+  visit_source:
+    type: string
+    description: The simulation version to use
+    default: "4.3"
+
