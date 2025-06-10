@@ -18,7 +18,7 @@ parameters:
     type: string
     description: The telescope (simonyi or auxtel).
     default: "simonyi"
-
+schedule_enabled: true
 schedule:
   - freq: "daily"
     hour: 17
