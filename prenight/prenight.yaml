@@ -6,12 +6,14 @@ authors:
 parameters:
   day_obs:
     type: string
-    description: Date of observation (YYYY-MM-DD)
-    default: "2025-04-28"
+    description: "Date of observation (dayobs: YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "today"
   sim_date:
     type: string
     description: Date of the simulation (YYYY-MM-DD)
-    default: "2025-04-28"
+    format: date
+    dynamic_default: "today"
   sim_index:
     type: string
     description: The index of the simulation (within its date)

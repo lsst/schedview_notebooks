@@ -6,12 +6,14 @@ authors:
 parameters:
   day_obs:
     type: string
-    description: The night of observing (YYYY-MM-DD)
-    default: "2025-05-05"
+    description: "Date of observation (dayobs: YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "yesterday"
   sim_date:
     type: string
     description: Date on which simulations were run (YYYY-MM-DD)
-    default: "2025-05-05"
+    format: date
+    dynamic_default: "yesterday"
   visit_origin:
     type: string
     description: The instrument (if querying from consdb) or simulation version to use
