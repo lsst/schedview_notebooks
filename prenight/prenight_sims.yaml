@@ -14,3 +14,7 @@ parameters:
     description: Date of the earliest simulation to show (YYYY-MM-DD)
     format: date
     dynamic_default: "-3d"
+
+schedule:
+  - freq: "daily"
+    hour: 17

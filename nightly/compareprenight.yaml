@@ -18,3 +18,7 @@ parameters:
     type: string
     description: The instrument (if querying from consdb) or simulation version to use
     default: "lsstcam"
+
+schedule:
+  - freq: "daily"
+    hour: 12

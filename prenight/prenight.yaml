@@ -18,3 +18,7 @@ parameters:
     type: string
     description: The index of the simulation (within its date)
     default: "1"
+
+schedule:
+  - freq: "daily"
+    hour: 17
