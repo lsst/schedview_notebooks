@@ -26,15 +26,16 @@ date --iso=s
 
 source /sdf/group/rubin/sw/w_latest/loadLSST.sh
 conda activate /sdf/data/rubin/user/neilsen/home/dot_conda/envs/ehn313
+source ${HOME}/.auth_bashrc
 
 set -o xtrace
 
 echo "Setting parameters"
 date --iso=s
 export SCHEDVIEW_VISIT_ORIGIN='lsstcam'
-DAYOBS_YY=$(date '+%Y')
-DAYOBS_MM=$(date '+%m')
-DAYOBS_DD=$(date '+%d')
+DAYOBS_YY=$(date -d yesterday '+%Y')
+DAYOBS_MM=$(date -d yesterday '+%m')
+DAYOBS_DD=$(date -d yesterday '+%d')
 export SCHEDVIEW_DAY_OBS="${DAYOBS_YY}${DAYOBS_MM}${DAYOBS_DD}"
 
 echo "Preparing directory for this dayobs"
