@@ -50,8 +50,9 @@ date --iso=s
 # Get the notebook
 NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
 NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
-wget "https://github.com/lsst/schedview_notebooks/blob/tickets/SP-2213/nightly/scheduler-nightsum.ipynb?raw=True" \
-    --output-document=${NIGHTSUM_FNAME}
+# Do not just blindly check out of git, but copy from somewhere hand
+# checked.
+cp /sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/nightly/scheduler-nightsum.ipynb $NIGHTSUM_FNAME
 
 echo "Executing the nightsum notebook"
 date --iso=s
