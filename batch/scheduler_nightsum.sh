@@ -32,7 +32,7 @@ set -o xtrace
 echo "Setting parameters"
 date --iso=s
 export SCHEDVIEW_VISIT_ORIGIN='lsstcam'
-DOYOBS_YY=$(date '+%Y')
+DAYOBS_YY=$(date '+%Y')
 DAYOBS_MM=$(date '+%m')
 DAYOBS_DD=$(date '+%d')
 export SCHEDVIEW_DAY_OBS="${DAYOBS_YY}${DAYOBS_MM}${DAYOBS_DD}"
