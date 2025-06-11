@@ -42,6 +42,7 @@ date --iso=s
 # Make the directory in which to work and save the html file
 NIGHTSUM_DIR="/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
 mkdir -p ${NIGHTSUM_DIR}
+cd ${NIGHTSUM_DIR}
 
 echo "Getting scheduler_nightsum.ipynb from github"
 date --iso=s
@@ -64,7 +65,7 @@ time jupyter nbconvert \
     --ExecutePreprocessor.kernel_name=python3 \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
-    ${NIGTSUM_FNAME}
+    ${NIGHTSUM_FNAME}
 
 echo "Done."
 date --iso=s
