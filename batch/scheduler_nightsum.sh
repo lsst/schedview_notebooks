@@ -49,7 +49,7 @@ date --iso=s
 # Get the notebook
 NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
 NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
-wget "https://github.com/lsst/schedview_notebooks/blob/main/nightly/scheduler-nightsum.ipynb?raw=True" \
+wget "https://github.com/lsst/schedview_notebooks/blob/tickets/SP-2213/nightly/scheduler-nightsum.ipynb?raw=True" \
     --output-document=${NIGHTSUM_FNAME}
 
 echo "Executing the nightsum notebook"
