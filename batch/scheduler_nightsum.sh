@@ -38,7 +38,7 @@ DAYOBS_MM=$(date -d yesterday '+%m')
 DAYOBS_DD=$(date -d yesterday '+%d')
 export SCHEDVIEW_DAY_OBS="${DAYOBS_YY}${DAYOBS_MM}${DAYOBS_DD}"
 
-echo "Preparing directory for this dayobs"
+echo "Preparing directory for this nightsum"
 date --iso=s
 # Make the directory in which to work and save the html file
 NIGHTSUM_DIR="/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
@@ -69,6 +69,41 @@ time jupyter nbconvert \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
     ${NIGHTSUM_FNAME}
+
+
+echo "Preparing directory for this prenight comparison"
+date --iso=s
+# Make the directory in which to work and save the html file
+COMPARE_NIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+mkdir -p ${COMPARE_NIGHT_DIR}
+cd ${COMPARE_NIGHT_DIR}
+
+COMPARE_NIGHT_SOURCE="/sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/nightly/compareprenight.ipynb"
+echo "Copying compareprenight.ipynb from ${COMPARE_NIGHT_SOURCE}"
+date --iso=s
+# Get the notebook
+COMPARE_NIGHT_FNAME_BASE="comparenight_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
+COMPARE_NIGHT_FNAME=${COMPARE_NIGHT_FNAME_BASE}.ipynb
+# Do not just blindly check out of git, but copy from somewhere hand
+# checked.
+cp ${COMPARE_NIGHT_SOURCE} $COMPARE_NIGHT_FNAME
+
+
+echo "Executing the compare prenight notebook"
+date --iso=s
+# At the USDF, the timings can be very slow compared to running on a laptop,
+# so set the timeouts really high.
+# Setting the kernel_name to python3 uses the kernel from the activated
+# conda environment.
+time jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    ${COMPARE_NIGHT_FNAME}
+
 
 echo "Done."
 date --iso=s

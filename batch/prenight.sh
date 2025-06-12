@@ -40,7 +40,7 @@ export SCHEDVIEW_DAY_OBS="${DAYOBS_YY}${DAYOBS_MM}${DAYOBS_DD}"
 export SCHEDVIEW_SIM_DATE="${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
 export SCHEDVIEW_SIM_INDEX="1"
 
-echo "Preparing directory for this dayobs"
+echo "Preparing prenight directory for this prenight"
 date --iso=s
 # Make the directory in which to work and save the html file
 PRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
@@ -71,6 +71,43 @@ time jupyter nbconvert \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
     ${PRENIGHT_FNAME}
+
+
+echo "Preparing multiprenight directory for this dayobs"
+date --iso=s
+# Make the directory in which to work and save the html file
+MULTIPRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+mkdir -p ${MULTIPRENIGHT_DIR}
+cd ${MULTIPRENIGHT_DIR}
+
+MULTIPRENIGHT_SOURCE="/sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/prenight/multiprenight.ipynb"
+echo "Copying multiprenight.ipynb from ${MULTIPRENIGHT_SOURCE}"
+date --iso=s
+# Get the notebook
+MULTIPRENIGHT_FNAME_BASE="multiprenight_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
+MULTIPRENIGHT_FNAME=${MULTIPRENIGHT_FNAME_BASE}.ipynb
+# Do not just blindly check out of git, but copy from somewhere hand
+# checked.
+cp ${MULTIPRENIGHT_SOURCE} $MULTIPRENIGHT_FNAME
+
+echo "Executing the multiprenight notebook"
+date --iso=s
+# At the USDF, the timings can be very slow compared to running on a laptop,
+# so set the timeouts really high.
+# Setting the kernel_name to python3 uses the kernel from the activated
+# conda environment.
+time jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    ${MULTIPRENIGHT_FNAME}
+
+echo "Done."
+date --iso=s
+
 
 echo "Done."
 date --iso=s
