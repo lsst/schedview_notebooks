@@ -33,6 +33,7 @@ set -o xtrace
 echo "Setting parameters"
 date --iso=s
 export SCHEDVIEW_INSTRUMENT='lsstcam'
+export SCHEDVIEW_TELESCOPE="simonyi"
 DAYOBS_YY=$(date '+%Y')
 DAYOBS_MM=$(date '+%m')
 DAYOBS_DD=$(date '+%d')
