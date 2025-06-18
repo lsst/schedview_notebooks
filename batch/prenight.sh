@@ -108,7 +108,3 @@ time jupyter nbconvert \
 
 echo "Done."
 date --iso=s
-
-
-echo "Done."
-date --iso=s
