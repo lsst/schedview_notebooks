@@ -104,6 +104,20 @@ time jupyter nbconvert \
     --ExecutePreprocessor.timeout=3600 \
     ${COMPARE_NIGHT_FNAME}
 
+echo "Rebuilding schedview report table of contents"
+date --iso=s
+SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/contents/pregenerated_toc.ipynb"
+SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
+cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
+time jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    ${SCHEDVIEW_TOC_FNAME}
+
 
 echo "Done."
 date --iso=s
