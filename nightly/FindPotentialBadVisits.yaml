@@ -6,9 +6,13 @@ authors:
 parameters:
   day_obs:
     type: string
-    description: "Day obs of observing (YYYY-MM-DD)"
-    default: "Yesterday"
+    description: "Date of observation (YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "yesterday"
   show_joined:
     type: boolean
     description: "Show dataframe of joined target/observation/nextvisit/visits"
     default: false
+schedule:
+  - freq: "daily"
+    hour: 13
