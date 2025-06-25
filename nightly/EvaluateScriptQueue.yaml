@@ -6,12 +6,14 @@ authors:
 parameters:
   day_obs_min:
     type: string
-    description: "Starting dayobs (YYYY-MM-DD)"
-    default: "Yesterday"
+    description: "Date of observation (YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "yesterday"
   day_obs_max:
     type: string
-    description: "Ending dayobs (YYYY-MM-DD) (if max==min, then messages cover one night)"
-    default: "Yesterday" 
+    description: "Date of observation (YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "yesterday"
   time_order: 
     type: string
     description: "Order to display messages ('newest first' or 'oldest first')"
@@ -31,5 +33,7 @@ parameters:
     type: boolean
     description: "Show results as a graphical timeline"
     default: false
-
-    
+schedule_enabled: true
+schedule:
+  - freq: "daily"
+    hour: 13
