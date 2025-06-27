@@ -39,6 +39,8 @@ DAYOBS_MM=$(date '+%m')
 DAYOBS_DD=$(date '+%d')
 export SCHEDVIEW_DAY_OBS="${DAYOBS_YY}${DAYOBS_MM}${DAYOBS_DD}"
 IFS=' ' read SCHEDVIEW_SIM_DATE SCHEDVIEW_SIM_INDEX <<< $(prenight_inventory ${SCHEDVIEW_DAY_OBS} | awk -F "\t" '$4~/'${SCHEDVIEW_TELESCOPE}'/ && $8~/.*ideal.*/ && $8~/.*nominal.*/ {print $2, $3}' )
+export SCHEDVIEW_SIM_DATE
+export SCHEDVIEW_SIM_INDEX
 
 echo "Preparing prenight directory for this prenight"
 date --iso=s
