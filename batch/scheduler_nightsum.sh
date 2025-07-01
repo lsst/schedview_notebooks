@@ -37,7 +37,7 @@ set -o xtrace
 echo "Setting parameters"
 date --iso=s
 if [ -z ${SCHEDVIEW_DAY_OBS+xxx} ] ; then
-    SCHEDVIEW_DAY_OBS=$(date '+%Y%m%d')
+    SCHEDVIEW_DAY_OBS=$(date -d yesterday '+%Y%m%d')
 else
   if [[ ! ${SCHEDVIEW_DAY_OBS} =~ ^20[0-9]{6}$ ]]; then
     echo "SCHEDVIEW_DAY_OBS must by in YYYYMMDD format"
