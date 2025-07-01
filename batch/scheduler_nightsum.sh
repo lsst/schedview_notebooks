@@ -12,33 +12,47 @@
 
 echo "******** START of scheduler_nightsum.sh **********"
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+if [ -z $(command -v prenight_inventory ) ] ; then
+  # If prenight_inventory is not already in our environment,
+  # set up the standard prenight sim environment at the
+  # USDF.
+
+  # Source global definitions
+  if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+  fi
+
+  # SLAC S3DF - source all files under ~/.profile.d
+  if [[ -e ~/.profile.d && -n "$(ls -A ~/.profile.d/)" ]]; then
+    source <(cat $(find -L  ~/.profile.d -name '*.conf'))
+  fi
+
+  source /sdf/group/rubin/sw/w_latest/loadLSST.sh
+  conda activate /sdf/data/rubin/shared/scheduler/envs/prenight
+  source ${HOME}/.auth_bashrc
 fi
-
-# SLAC S3DF - source all files under ~/.profile.d
-if [[ -e ~/.profile.d && -n "$(ls -A ~/.profile.d/)" ]]; then
-  source <(cat $(find -L  ~/.profile.d -name '*.conf'))
-fi
-
-date --iso=s
-
-source /sdf/group/rubin/sw/w_latest/loadLSST.sh
-conda activate /sdf/data/rubin/shared/scheduler/envs/prenight
-source ${HOME}/.auth_bashrc
 
 set -o xtrace
 
 echo "Setting parameters"
 date --iso=s
+if [ -z ${SCHEDVIEW_DAY_OBS+xxx} ] ; then
+    SCHEDVIEW_DAY_OBS=$(date '+%Y%m%d')
+else
+  if [[ ! ${SCHEDVIEW_DAY_OBS} =~ ^20[0-9]{6}$ ]]; then
+    echo "SCHEDVIEW_DAY_OBS must by in YYYYMMDD format"
+    exit(1)
+fi
+DAYOBS_YY=$(echo $SCHEDVIEW_DAY_OBS | cut -c-4)
+DAYOBS_MM=$(echo $SCHEDVIEW_DAY_OBS | cut -c5-6)
+DAYOBS_DD=$(echo $SCHEDVIEW_DAY_OBS | cut -c7-8
+export SCHEDVIEW_DAY_OBS
 
-DAYOBS_YY=$(date -d yesterday '+%Y')
-DAYOBS_MM=$(date -d yesterday '+%m')
-DAYOBS_DD=$(date -d yesterday '+%d')
-export SCHEDVIEW_DAY_OBS="${DAYOBS_YY}${DAYOBS_MM}${DAYOBS_DD}"
+if [-z ${SCHEDVIEW_INSTRUMENTS+xxx} ] ; then
+  SCHEDVIEW_INSTRUMENTS="lsstcam latiss"
+fi
 
-for SCHEDVIEW_VISIT_ORIGIN in lsstcam latiss ; do
+for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
     export SCHEDVIEW_VISIT_ORIGIN
 
     echo "Preparing directory for this nightsum"
