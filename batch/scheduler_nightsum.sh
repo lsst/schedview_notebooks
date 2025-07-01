@@ -49,7 +49,7 @@ DAYOBS_MM=$(echo $SCHEDVIEW_DAY_OBS | cut -c5-6)
 DAYOBS_DD=$(echo $SCHEDVIEW_DAY_OBS | cut -c7-8)
 export SCHEDVIEW_DAY_OBS
 
-if [-z ${SCHEDVIEW_INSTRUMENTS+xxx} ] ; then
+if [ -z ${SCHEDVIEW_INSTRUMENTS+xxx} ] ; then
   SCHEDVIEW_INSTRUMENTS="lsstcam latiss"
 fi
 
