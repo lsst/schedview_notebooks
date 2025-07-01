@@ -41,7 +41,7 @@ if [ -z ${SCHEDVIEW_DAY_OBS+xxx} ] ; then
 else
   if [[ ! ${SCHEDVIEW_DAY_OBS} =~ ^20[0-9]{6}$ ]]; then
     echo "SCHEDVIEW_DAY_OBS must by in YYYYMMDD format"
-    exit(1)
+    exit 1
 fi
 DAYOBS_YY=$(echo $SCHEDVIEW_DAY_OBS | cut -c-4)
 DAYOBS_MM=$(echo $SCHEDVIEW_DAY_OBS | cut -c5-6)
