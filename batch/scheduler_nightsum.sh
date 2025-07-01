@@ -45,7 +45,7 @@ else
 fi
 DAYOBS_YY=$(echo $SCHEDVIEW_DAY_OBS | cut -c-4)
 DAYOBS_MM=$(echo $SCHEDVIEW_DAY_OBS | cut -c5-6)
-DAYOBS_DD=$(echo $SCHEDVIEW_DAY_OBS | cut -c7-8
+DAYOBS_DD=$(echo $SCHEDVIEW_DAY_OBS | cut -c7-8)
 export SCHEDVIEW_DAY_OBS
 
 if [-z ${SCHEDVIEW_INSTRUMENTS+xxx} ] ; then
