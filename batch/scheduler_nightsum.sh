@@ -53,6 +53,11 @@ if [ -z ${SCHEDVIEW_INSTRUMENTS+xxx} ] ; then
   SCHEDVIEW_INSTRUMENTS="lsstcam latiss"
 fi
 
+# Make created reports and directories group writeable,
+# and with the expected group.
+newgrp rubin_users
+umask g+rw
+
 for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   export SCHEDVIEW_VISIT_ORIGIN
 

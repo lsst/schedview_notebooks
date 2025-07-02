@@ -54,6 +54,11 @@ if [ -z ${SCHEDVIEW_INSTRUMENTS+xxx} ] ; then
   SCHEDVIEW_INSTRUMENTS="lsstcam latiss"
 fi
 
+# Make created reports and directories group writeable,
+# and with the expected group.
+newgrp rubin_users
+umask g+rw
+
 for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   if [ ${SCHEDVIEW_INSTRUMENT} == "lsstcam" ] ; then SCHEDVIEW_TELESCOPE="simonyi" ; else SCHEDVIEW_TELESCOPE="auxtel" ; fi
   export SCHEDVIEW_INSTRUMENT
