@@ -63,7 +63,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   mkdir -p ${NIGHTSUM_DIR}
   cd ${NIGHTSUM_DIR}
 
-  SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/nightly/scheduler-nightsum.ipynb"
+  SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/scheduler-nightsum.ipynb"
   echo "Copying scheduler_nightsum.ipynb from ${SCHEDULER_NIGHTSUM_SOURCE}"
   date --iso=s
   # Get the notebook
@@ -96,7 +96,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   mkdir -p ${COMPARE_NIGHT_DIR}
   cd ${COMPARE_NIGHT_DIR}
 
-  COMPARE_NIGHT_SOURCE="/sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/nightly/compareprenight.ipynb"
+  COMPARE_NIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/compareprenight.ipynb"
   echo "Copying compareprenight.ipynb from ${COMPARE_NIGHT_SOURCE}"
   date --iso=s
   # Get the notebook
@@ -125,7 +125,7 @@ done
 
 echo "Rebuilding schedview report table of contents"
 date --iso=s
-SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/user/neilsen/forcron/schedview_notebooks/contents/pregenerated_toc.ipynb"
+SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/contents/pregenerated_toc.ipynb"
 SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
 cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
 time jupyter nbconvert \
