@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #SBATCH --account=rubin:developers      # Account name
 #SBATCH --job-name=lsstcam_prenight_daily   # Job name
-#SBATCH --output=/sdf/data/rubin/shared/scheduler/schedview/sbatch/prenight.out # Output file (stdout)
-#SBATCH --error=/sdf/data/rubin/shared/scheduler/schedview/sbatch/prenight.err  # Error file (stderr)
+#SBATCH --output=/sdf/data/rubin/shared/scheduler/schedview/sbatch/prenight_%A_%a.out # Output file (stdout)
+#SBATCH --error=/sdf/data/rubin/shared/scheduler/schedview/sbatch/prenight_%A_%a.err  # Error file (stderr)
 #SBATCH --partition=milano              # Partition (queue) names
 #SBATCH --nodes=1                       # Number of nodes
 #SBATCH --ntasks=1                      # Number of tasks run in parallel
