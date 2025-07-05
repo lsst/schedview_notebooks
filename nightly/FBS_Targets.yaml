@@ -6,8 +6,9 @@ authors:
 parameters:
   day_obs:
     type: string
-    description: "Date of observation (YYYY-MM-DD)"
-    default: "Yesterday"
+    description: "Date of observation (YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "yesterday"
   telescope:
     type: string
     description: "AuxTel or Simonyi"
@@ -16,3 +17,6 @@ parameters:
     type: string
     description: "Timezone for plot"
     default: "Chile/Continental"
+schedule:
+  - freq: "daily"
+    hour: 13
