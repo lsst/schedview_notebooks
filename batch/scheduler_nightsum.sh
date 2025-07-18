@@ -139,6 +139,7 @@ time jupyter nbconvert \
 
 echo "Building the public nightsum"
 
+SCHEDVIEW_VISIT_ORIGIN='lsstcam'
 PUBLIC_NIGHTSUM_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
 mkdir -p ${PUBLIC_NIGHTSUM_DIR}
 cd ${PUBLIC_NIGHTSUM_DIR}
