@@ -137,6 +137,40 @@ time jupyter nbconvert \
     --ExecutePreprocessor.timeout=3600 \
     ${SCHEDVIEW_TOC_FNAME}
 
+echo "Building the public nightsum"
+
+PUBLIC_NIGHTSUM_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+mkdir -p ${PUBLIC_NIGHTSUM_DIR}
+cd ${PUBLIC_NIGHTSUM_DIR}
+
+PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
+NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
+NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
+cp ${PUBLIC_SCHEDULER_NIGHTSUM_SOURCE} $PUBLIC_NIGHTSUM_FNAME
+
+jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    ${PUBLIC_NIGHTSUM_FNAME}
+
+echo "Building the public index"
+
+cd /sdf/group/rubin/web_data/sim-data/schedview/reports
+cp /sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/schedview_reports_toc.ipynb .
+jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    schedview_reports_toc.ipynb
+
+cp schedview_reports_toc.html index.html
 
 echo "Done."
 date --iso=s
