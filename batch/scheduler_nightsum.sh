@@ -146,7 +146,7 @@ cd ${PUBLIC_NIGHTSUM_DIR}
 PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
 NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
 NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
-cp ${PUBLIC_SCHEDULER_NIGHTSUM_SOURCE} $PUBLIC_NIGHTSUM_FNAME
+cp ${PUBLIC_SCHEDULER_NIGHTSUM_SOURCE} $NIGHTSUM_FNAME
 
 jupyter nbconvert \
     --to html \
