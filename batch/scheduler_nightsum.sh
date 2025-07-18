@@ -155,7 +155,7 @@ jupyter nbconvert \
     --ExecutePreprocessor.kernel_name=python3 \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
-    ${PUBLIC_NIGHTSUM_FNAME}
+    ${NIGHTSUM_FNAME}
 
 echo "Building the public index"
 
