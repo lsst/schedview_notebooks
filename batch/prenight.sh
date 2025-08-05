@@ -67,10 +67,10 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   date --iso=s
   # Make the directory in which to work and save the html file
   PRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  mkdir -p ${PRENIGHT_DIR}
   chmod o+rx "/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod o+rx "/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod o+rx ${PRENIGHT_DIR}
-  mkdir -p ${PRENIGHT_DIR}
   cd ${PRENIGHT_DIR}
 
   PRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/prenight.ipynb"
@@ -104,10 +104,10 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   date --iso=s
   # Make the directory in which to work and save the html file
   MULTIPRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  mkdir -p ${MULTIPRENIGHT_DIR}
   chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod go+rx ${MULTIPRENIGHT_DIR}
-  mkdir -p ${MULTIPRENIGHT_DIR}
   cd ${MULTIPRENIGHT_DIR}
 
   MULTIPRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/multiprenight.ipynb"
