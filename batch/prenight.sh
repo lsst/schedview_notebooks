@@ -68,6 +68,9 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Make the directory in which to work and save the html file
   PRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${PRENIGHT_DIR}
+  chmod o+rx "/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod o+rx "/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  chmod o+rx ${PRENIGHT_DIR}
   cd ${PRENIGHT_DIR}
 
   PRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/prenight.ipynb"
@@ -94,13 +97,17 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
       --ExecutePreprocessor.startup_timeout=3600 \
       --ExecutePreprocessor.timeout=3600 \
       ${PRENIGHT_FNAME}
-
+  
+  chmox o+r ${PRENIGHT_FNAME_BASE}.html
 
   echo "Preparing multiprenight directory for this dayobs"
   date --iso=s
   # Make the directory in which to work and save the html file
   MULTIPRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${MULTIPRENIGHT_DIR}
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  chmod go+rx ${MULTIPRENIGHT_DIR}
   cd ${MULTIPRENIGHT_DIR}
 
   MULTIPRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/multiprenight.ipynb"
@@ -128,6 +135,8 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
       --ExecutePreprocessor.timeout=3600 \
       ${MULTIPRENIGHT_FNAME}
 
+  chmod go+r ${MULTIPRENIGHT_FNAME_BASE}.html
+
 done
 
 echo "Rebuilding schedview report table of contents"
@@ -143,6 +152,8 @@ time jupyter nbconvert \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
     ${SCHEDVIEW_TOC_FNAME}
+
+chmod go+r /sdf/data/rubin/shared/scheduler/reports/report_toc.html
 
 echo "Done."
 date --iso=s

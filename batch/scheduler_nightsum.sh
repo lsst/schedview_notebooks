@@ -61,6 +61,9 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Make the directory in which to work and save the html file
   NIGHTSUM_DIR="/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${NIGHTSUM_DIR}
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx ${NIGHTSUM_DIR}
   cd ${NIGHTSUM_DIR}
 
   SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/scheduler-nightsum.ipynb"
@@ -88,12 +91,17 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
       --ExecutePreprocessor.timeout=3600 \
       ${NIGHTSUM_FNAME}
 
+  chmod go+r ${NIGHTSUM_FNAME_BASE}.html
+
 
   echo "Preparing directory for this prenight comparison"
   date --iso=s
   # Make the directory in which to work and save the html file
   COMPARE_NIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${COMPARE_NIGHT_DIR}
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx ${COMPARE_NIGHT_DIR}
   cd ${COMPARE_NIGHT_DIR}
 
   COMPARE_NIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/compareprenight.ipynb"
@@ -105,7 +113,6 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
   cp ${COMPARE_NIGHT_SOURCE} $COMPARE_NIGHT_FNAME
-
 
   echo "Executing the compare prenight notebook"
   date --iso=s
@@ -122,6 +129,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
       --ExecutePreprocessor.timeout=3600 \
       ${COMPARE_NIGHT_FNAME}
 done
+chmod go+r ${COMPARE_NIGHT_FNAME_BASE}.html
 
 echo "Rebuilding schedview report table of contents"
 date --iso=s
@@ -137,6 +145,47 @@ time jupyter nbconvert \
     --ExecutePreprocessor.timeout=3600 \
     ${SCHEDVIEW_TOC_FNAME}
 
+chmod o+r "/sdf/data/rubin/shared/scheduler/reports/report_toc.html"
+echo "Building the public nightsum"
+
+SCHEDVIEW_VISIT_ORIGIN='lsstcam'
+PUBLIC_NIGHTSUM_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}"
+chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}"
+chmod go+rx ${PUBLIC_NIGHTSUM_DIR}
+mkdir -p ${PUBLIC_NIGHTSUM_DIR}
+cd ${PUBLIC_NIGHTSUM_DIR}
+
+PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
+NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
+NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
+cp ${PUBLIC_SCHEDULER_NIGHTSUM_SOURCE} $NIGHTSUM_FNAME
+
+jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    ${NIGHTSUM_FNAME}
+
+chmod go+r ${NIGHTSUM_FNAME_BASE}.html
+echo "Building the public index"
+
+cd /sdf/group/rubin/web_data/sim-data/schedview/reports
+cp /sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/schedview_reports_toc.ipynb .
+jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    schedview_reports_toc.ipynb
+
+cp schedview_reports_toc.html index.html
+chmod o+r schedview_reports_toc.html index.html
 
 echo "Done."
 date --iso=s
