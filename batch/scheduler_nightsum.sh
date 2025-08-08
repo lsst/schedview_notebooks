@@ -128,8 +128,10 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
       --ExecutePreprocessor.startup_timeout=3600 \
       --ExecutePreprocessor.timeout=3600 \
       ${COMPARE_NIGHT_FNAME}
+
+  chmod go+r ${COMPARE_NIGHT_FNAME_BASE}.html
 done
-chmod go+r ${COMPARE_NIGHT_FNAME_BASE}.html
+
 
 echo "Rebuilding schedview report table of contents"
 date --iso=s
@@ -150,10 +152,10 @@ echo "Building the public nightsum"
 
 SCHEDVIEW_VISIT_ORIGIN='lsstcam'
 PUBLIC_NIGHTSUM_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+mkdir -p ${PUBLIC_NIGHTSUM_DIR}
 chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}"
 chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}"
 chmod go+rx ${PUBLIC_NIGHTSUM_DIR}
-mkdir -p ${PUBLIC_NIGHTSUM_DIR}
 cd ${PUBLIC_NIGHTSUM_DIR}
 
 PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
@@ -185,7 +187,7 @@ jupyter nbconvert \
     schedview_reports_toc.ipynb
 
 cp schedview_reports_toc.html index.html
-chmod o+r schedview_reports_toc.html index.html
+chmod go+r schedview_reports_toc.html index.html
 
 echo "Done."
 date --iso=s
