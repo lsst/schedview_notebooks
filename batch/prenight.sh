@@ -98,7 +98,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
       --ExecutePreprocessor.timeout=3600 \
       ${PRENIGHT_FNAME}
   
-  chmox o+r ${PRENIGHT_FNAME_BASE}.html
+  chmod o+r ${PRENIGHT_FNAME_BASE}.html
 
   echo "Preparing multiprenight directory for this dayobs"
   date --iso=s
