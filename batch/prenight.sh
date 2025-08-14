@@ -30,13 +30,15 @@ if [ -z $(command -v prenight_inventory ) ] ; then
 
   source /sdf/group/rubin/sw/w_latest/loadLSST.sh
   conda activate /sdf/data/rubin/shared/scheduler/envs/prenight
-  source ${HOME}/.auth_bashrc
 fi
 
 set -o xtrace
 
 echo "Setting parameters"
 date --iso=s
+
+export ACCESS_TOKEN_FILE=${HOME}/.usdf_access_token
+
 if [ -z ${SCHEDVIEW_DAY_OBS+xxx} ] ; then
     SCHEDVIEW_DAY_OBS=$(date '+%Y%m%d')
 else
