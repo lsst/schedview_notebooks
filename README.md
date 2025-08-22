@@ -1,6 +1,8 @@
 # schedview_notebooks
 Notebooks associated with schedview, sometimes for execution by Times Square
 
+Additional information on running the notebooks can be found in the "reports" section of the documentation for `schedview` itself.
+
 ## Development
 
 This repository uses Pre-commit to keep notebooks formatted and clean. Install Pre-commit by running:
