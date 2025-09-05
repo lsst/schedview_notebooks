@@ -2,7 +2,7 @@
 #SBATCH --account=rubin:developers      # Account name
 #SBATCH --job-name=lsstcam_nightsum_daily   # Job name
 #SBATCH --output=/sdf/data/rubin/shared/scheduler/schedview/sbatch/scheduler_nightsum_%A_%a.out # Output file (stdout)
-#SBATCH --error=/sdf/data/rubin/shared/scheduler/schedview/sbatch/scheduler_nightsum_%A_%a.err  # Error file (stderr)
+#SBATCH --error=/sdf/data/rubin/shared/scheduler/schedview/sbatch/scheduler_nightsum_%A_%a.out  # Error file (stderr)
 #SBATCH --partition=milano              # Partition (queue) names
 #SBATCH --nodes=1                       # Number of nodes
 #SBATCH --ntasks=1                      # Number of tasks run in parallel
@@ -28,7 +28,7 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   fi
 
   source /sdf/group/rubin/sw/w_latest/loadLSST.sh
-  conda activate /sdf/data/rubin/shared/scheduler/envs/prenight
+  conda activate /sdf/data/rubin/shared/scheduler/envs/like_rsp_w2025_36
 fi
 
 set -o xtrace
