@@ -32,6 +32,14 @@ source /sdf/group/rubin/sw/w_latest/loadLSST.sh
 conda create --prefix /sdf/data/rubin/shared/scheduler/envs/like_rsp_w2025_36 --file  like_rsp_w2025_36_spec.txt
 ```
 
+The batch script that generates the prenight sim page curretly requires a version of schedview newer than
+here, so make a variant with the new schedview added:
+```
+conda create --prefix /sdf/data/rubin/shared/scheduler/envs/prenight_like_rsp_w2025_36 --clone /sdf/data/rubin/shared/scheduler/envs/like_rsp_w2025_36
+conda activate /sdf/data/rubin/shared/scheduler/envs/prenight_like_rsp_w2025_36
+pip install git+https://github.com/lsst/schedview.git@v0.19.0.dev1
+```
+
 Finally, update the bash scripts that need it (batch/prenight.sh and batch/scheduler_nightsum.sh),
 for example:
 

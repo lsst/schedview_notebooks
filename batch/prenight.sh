@@ -29,8 +29,7 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   fi
 
   source /sdf/group/rubin/sw/w_latest/loadLSST.sh
-  conda activate /sdf/data/rubin/shared/scheduler/envs/like_rsp_w2025_36
-  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/schedview-0.18.1.dev27+g2dced97
+  conda activate /sdf/data/rubin/shared/scheduler/envs/prenight_like_rsp_w2025_36
 fi
 
 set -o xtrace
