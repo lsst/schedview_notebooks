@@ -35,7 +35,7 @@ set -o xtrace
 
 echo "Setting parameters"
 
-export ACCESS_TOKEN_FILE=${HOME}/.usdf_access_token
+export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
 
 date --iso=s
 if [ -z ${SCHEDVIEW_DAY_OBS+xxx} ] ; then
