@@ -1,4 +1,4 @@
-title: Survey Scheduling Key Metrics
+title: Survey Strategy LSR Metrics
 description: Evaluate LSR requirement metrics.
 authors:
   - name: Lynne Jones
@@ -8,7 +8,7 @@ parameters:
     type: string
     description: Date of last observation (YYYYMMDD). Negative value uses entirely simulation.
     format: dayobs
-    dynamic_default: "yesterday"
+    default: "-1"
   sim_filename:
     type: string
     description: Filename of the opsim database to evaluate. Default uses baseline.
