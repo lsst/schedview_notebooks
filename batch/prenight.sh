@@ -110,10 +110,13 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Preparing multiprenight directory for this dayobs"
   date --iso=s
   # Make the directory in which to work and save the html file
-  MULTIPRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  if [ -x ${MULTIPRENIGHT_BASE_DIR+xxx} ] ; then
+    MULTIPRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight"
+  fi
+  MULTIPRENIGHT_DIR="${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${MULTIPRENIGHT_DIR}
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  chmod go+rx "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod go+rx ${MULTIPRENIGHT_DIR}
   cd ${MULTIPRENIGHT_DIR}
 
