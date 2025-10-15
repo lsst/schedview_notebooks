@@ -61,21 +61,26 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   export SCHEDVIEW_INSTRUMENT
   export SCHEDVIEW_TELESCOPE
 
-  IFS=' ' read SCHEDVIEW_SIM_DATE SCHEDVIEW_SIM_INDEX <<< $(prenight_inventory ${SCHEDVIEW_DAY_OBS} | awk -F "\t" '$4~/'${SCHEDVIEW_TELESCOPE}'/ && $8~/.*ideal.*/ && $8~/.*nominal.*/ {print $2, $3}' )
+  IFS=' ' read SCHEDVIEW_SIM_DATE SCHEDVIEW_SIM_INDEX <<< $(prenight_inventory ${SCHEDVIEW_DAY_OBS} | awk -F "\t" '$4~/'${SCHEDVIEW_TELESCOPE}'/ && $8~/.*ideal.*/ && $8~/.*nominal.*/ {print $2, $3}' | tail -1 )
   export SCHEDVIEW_SIM_DATE
   export SCHEDVIEW_SIM_INDEX
 
   echo "Preparing prenight directory for this prenight"
   date --iso=s
   # Make the directory in which to work and save the html file
-  PRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  if [ -x ${PRENIGHT_BASE_DIR+xxx} ] ; then
+    PRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight"
+  fi
+  PRENIGHT_DIR="${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${PRENIGHT_DIR}
-  chmod o+rx "/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
-  chmod o+rx "/sdf/data/rubin/shared/scheduler/reports/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  chmod o+rx "${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod o+rx "${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod o+rx ${PRENIGHT_DIR}
   cd ${PRENIGHT_DIR}
 
-  PRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/prenight.ipynb"
+  if [ -z ${PRENIGHT_SOURCE+xxx} ] ; then
+    PRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/prenight.ipynb"
+  fi
   echo "Copying prenight.ipynb from ${PRENIGHT_SOURCE}"
   date --iso=s
   # Get the notebook
@@ -105,14 +110,19 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Preparing multiprenight directory for this dayobs"
   date --iso=s
   # Make the directory in which to work and save the html file
-  MULTIPRENIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  if [ -x ${MULTIPRENIGHT_BASE_DIR+xxx} ] ; then
+    MULTIPRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight"
+  fi
+  MULTIPRENIGHT_DIR="${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${MULTIPRENIGHT_DIR}
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  chmod go+rx "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod go+rx ${MULTIPRENIGHT_DIR}
   cd ${MULTIPRENIGHT_DIR}
 
-  MULTIPRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/multiprenight.ipynb"
+  if [ -z ${MULTIPRENIGHT_SOURCE+xxx} ] ; then
+    MULTIPRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/multiprenight.ipynb"
+  fi
   echo "Copying multiprenight.ipynb from ${MULTIPRENIGHT_SOURCE}"
   date --iso=s
   # Get the notebook
