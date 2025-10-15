@@ -1,0 +1,25 @@
+title: Survey Scheduling Key Metrics
+description: Evaluate LSR requirement metrics.
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs:
+    type: string
+    description: Date of last observation (YYYYMMDD). Negative value uses entirely simulation.
+    format: dayobs
+    dynamic_default: "yesterday"
+  sim_filename:
+    type: string
+    description: Filename of the opsim database to evaluate. Default uses baseline.
+    default: ""
+  version:
+    type: float
+    description: Base version for the simulation (3, 5.0, etc.). Helps set colmap. 
+    default: 5
+  calculate:
+    type: bool
+    description: Run notebook or not. The notebook is relatively heavyweight, the default skips running in CI.
+    default: False
+    
+
