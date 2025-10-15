@@ -18,7 +18,7 @@ parameters:
     description: Base version for the simulation (3, 5.0, etc.). Helps set colmap. 
     default: 5
   calculate:
-    type: bool
+    type: "boolean"
     description: Run notebook or not. The notebook is relatively heavyweight, the default skips running in CI.
     default: False
     
