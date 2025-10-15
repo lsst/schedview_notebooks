@@ -6,9 +6,9 @@ authors:
 parameters:
   day_obs:
     type: string
-    description: Date of last observation (YYYYMMDD). Negative value uses entirely simulation.
+    description: Date of last observation (YYYYMMDD). Ignored at present.
     format: dayobs
-    default: "-1"
+    default: "20251101"
   sim_filename:
     type: string
     description: Filename of the opsim database to evaluate. Default uses baseline.
