@@ -68,7 +68,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   chmod go+rx ${NIGHTSUM_DIR}
   cd ${NIGHTSUM_DIR}
 
-  SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/scheduler-nightsum.ipynb"
+  SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/nightly/scheduler-nightsum.ipynb"
   echo "Copying scheduler_nightsum.ipynb from ${SCHEDULER_NIGHTSUM_SOURCE}"
   date --iso=s
   # Get the notebook
@@ -110,7 +110,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   cd ${COMPARE_NIGHT_DIR}
 
   if [ -z ${COMPARE_NIGHT_SOURCE+xxx} ] ; then
-    COMPARE_NIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/compareprenight.ipynb"
+    COMPARE_NIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/nightly/compareprenight.ipynb"
   fi
   echo "Copying compareprenight.ipynb from ${COMPARE_NIGHT_SOURCE}"
   date --iso=s
@@ -142,7 +142,7 @@ done
 
 echo "Rebuilding schedview report table of contents"
 date --iso=s
-SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/contents/pregenerated_toc.ipynb"
+SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/contents/pregenerated_toc.ipynb"
 SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/test/reports/report_toc.ipynb"
 cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
 time jupyter nbconvert \
@@ -165,7 +165,7 @@ chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstc
 chmod go+rx ${PUBLIC_NIGHTSUM_DIR}
 cd ${PUBLIC_NIGHTSUM_DIR}
 
-PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
+PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/public/nightsum.ipynb"
 NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
 NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
 cp ${PUBLIC_SCHEDULER_NIGHTSUM_SOURCE} $NIGHTSUM_FNAME
@@ -183,7 +183,7 @@ chmod go+r ${NIGHTSUM_FNAME_BASE}.html
 echo "Building the public index"
 
 cd /sdf/group/rubin/web_data/sim-data/schedview/reports
-cp /sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/schedview_reports_toc.ipynb .
+cp /sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/public/schedview_reports_toc.ipynb .
 jupyter nbconvert \
     --to html \
     --execute \
