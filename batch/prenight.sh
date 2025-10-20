@@ -69,7 +69,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   date --iso=s
   # Make the directory in which to work and save the html file
   if [ -x ${PRENIGHT_BASE_DIR+xxx} ] ; then
-    PRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight"
+    PRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/test/reports/prenight"
   fi
   PRENIGHT_DIR="${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${PRENIGHT_DIR}
@@ -111,7 +111,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   date --iso=s
   # Make the directory in which to work and save the html file
   if [ -x ${MULTIPRENIGHT_BASE_DIR+xxx} ] ; then
-    MULTIPRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight"
+    MULTIPRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/test/reports/multiprenight"
   fi
   MULTIPRENIGHT_DIR="${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${MULTIPRENIGHT_DIR}
@@ -154,7 +154,7 @@ done
 echo "Rebuilding schedview report table of contents"
 date --iso=s
 SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/contents/pregenerated_toc.ipynb"
-SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
+SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/test/reports/report_toc.ipynb"
 cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
 time jupyter nbconvert \
     --to html \
@@ -165,7 +165,7 @@ time jupyter nbconvert \
     --ExecutePreprocessor.timeout=3600 \
     ${SCHEDVIEW_TOC_FNAME}
 
-chmod go+r /sdf/data/rubin/shared/scheduler/reports/report_toc.html
+chmod go+r /sdf/data/rubin/shared/scheduler/test/reports/report_toc.html
 
 echo "Done."
 date --iso=s
