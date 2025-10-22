@@ -31,8 +31,8 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   source /sdf/group/rubin/sw/w_latest/loadLSST.sh
   conda activate /sdf/data/rubin/shared/scheduler/envs/prenight_like_rsp_w2025_36
 
-  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/SP-2167/rubin_sim:${PYTHONPATH}
-  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview:${PYTHONPATH}
+  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/rubin_sim-2.4.1.dev140+g532ec2c46:${PYTHONPATH}
+  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/schedview-0.19.2.dev11+g44bf8dd:${PYTHONPATH}
 fi
 
 set -o xtrace
