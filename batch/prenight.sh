@@ -97,7 +97,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Copying prenight.ipynb from ${PRENIGHT_SOURCE}"
   date --iso=s
   # Get the notebook
-  PRENIGHT_FNAME_BASE="vsarch_prenight_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
+  PRENIGHT_FNAME_BASE="prenight_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
   PRENIGHT_FNAME=${PRENIGHT_FNAME_BASE}.ipynb
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
@@ -139,7 +139,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Copying multiprenight.ipynb from ${MULTIPRENIGHT_SOURCE}"
   date --iso=s
   # Get the notebook
-  MULTIPRENIGHT_FNAME_BASE="vsarch_multiprenight_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
+  MULTIPRENIGHT_FNAME_BASE="multiprenight_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
   MULTIPRENIGHT_FNAME=${MULTIPRENIGHT_FNAME_BASE}.ipynb
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
