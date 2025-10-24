@@ -91,7 +91,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   cd ${PRENIGHT_DIR}
 
   if [ -z ${PRENIGHT_SOURCE+xxx} ] ; then
-    PRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/prenight/prenight.ipynb"
+    PRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/prenight.ipynb"
   fi
   echo "Copying prenight.ipynb from ${PRENIGHT_SOURCE}"
   date --iso=s
@@ -133,7 +133,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   cd ${MULTIPRENIGHT_DIR}
 
   if [ -z ${MULTIPRENIGHT_SOURCE+xxx} ] ; then
-    MULTIPRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/prenight/multiprenight.ipynb"
+    MULTIPRENIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/prenight/multiprenight.ipynb"
   fi
   echo "Copying multiprenight.ipynb from ${MULTIPRENIGHT_SOURCE}"
   date --iso=s
@@ -165,7 +165,7 @@ done
 
 echo "Rebuilding schedview report table of contents"
 date --iso=s
-SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/contents/pregenerated_toc.ipynb"
+SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/contents/pregenerated_toc.ipynb"
 SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
 cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
 time jupyter nbconvert \
