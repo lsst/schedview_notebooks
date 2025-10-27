@@ -61,10 +61,10 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Preparing directory for this nightsum"
   date --iso=s
   # Make the directory in which to work and save the html file
-  NIGHTSUM_DIR="/sdf/data/rubin/shared/scheduler/test/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  NIGHTSUM_DIR="/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${NIGHTSUM_DIR}
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/test/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/test/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx ${NIGHTSUM_DIR}
   cd ${NIGHTSUM_DIR}
 
@@ -100,7 +100,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   date --iso=s
   # Make the directory in which to work and save the html file
   if [ -x ${COMPARE_NIGHT_BASE_DIR+xxx} ] ; then
-    COMPARE_NIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/test/reports/compareprenight"
+    COMPARE_NIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/compareprenight"
   fi
   COMPARE_NIGHT_DIR="${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${COMPARE_NIGHT_DIR}
@@ -143,7 +143,7 @@ done
 echo "Rebuilding schedview report table of contents"
 date --iso=s
 SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/SP-2167/schedview_notebooks/contents/pregenerated_toc.ipynb"
-SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/test/reports/report_toc.ipynb"
+SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
 cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
 time jupyter nbconvert \
     --to html \
@@ -154,7 +154,7 @@ time jupyter nbconvert \
     --ExecutePreprocessor.timeout=3600 \
     ${SCHEDVIEW_TOC_FNAME}
 
-chmod o+r "/sdf/data/rubin/shared/scheduler/test/reports/report_toc.html"
+chmod o+r "/sdf/data/rubin/shared/scheduler/reports/report_toc.html"
 echo "Building the public nightsum"
 
 SCHEDVIEW_VISIT_ORIGIN='lsstcam'
