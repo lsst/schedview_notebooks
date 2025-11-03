@@ -99,14 +99,19 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Preparing directory for this prenight comparison"
   date --iso=s
   # Make the directory in which to work and save the html file
-  COMPARE_NIGHT_DIR="/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  if [ -x ${COMPARE_NIGHT_BASE_DIR+xxx} ] ; then
+    COMPARE_NIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/compareprenight"
+  fi
+  COMPARE_NIGHT_DIR="${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${COMPARE_NIGHT_DIR}
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx "${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  chmod go+rx "${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx ${COMPARE_NIGHT_DIR}
   cd ${COMPARE_NIGHT_DIR}
 
-  COMPARE_NIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/compareprenight.ipynb"
+  if [ -z ${COMPARE_NIGHT_SOURCE+xxx} ] ; then
+    COMPARE_NIGHT_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/compareprenight.ipynb"
+  fi
   echo "Copying compareprenight.ipynb from ${COMPARE_NIGHT_SOURCE}"
   date --iso=s
   # Get the notebook
