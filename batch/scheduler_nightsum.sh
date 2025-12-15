@@ -31,9 +31,26 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   conda activate /sdf/data/rubin/shared/scheduler/envs/like_rsp_w2025_36
 fi
 
+# The gate files provide a mechanism that scheduler group members
+# can use to stop this script from running, so if a cron job is
+# running it it can still be stopped when the owner is not
+# available.
+# This is accomplished by deleting the gate file
+# with the name of the owner of the cron job.
+CRONGATE=/sdf/data/rubin/shared/scheduler/cron_gates/scheduler_nightsum/${USER}
+echo "Checking gatefile ${CRONGATE}"
+if test ! -e ${CRONGATE} ; then
+    echo "Aborting because ${CRONGATE} does not exist."
+    echo "See /sdf/data/rubin/shared/scheduler/cron_gates/README.txt"
+    exit 1
+fi
+
 set -o xtrace
 
 echo "Setting parameters"
+
+newgrp rubin_users
+SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
 
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
 
@@ -66,6 +83,13 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
   chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx ${NIGHTSUM_DIR}
+
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${NIGHTSUM_DIR}"
+  done
+
   cd ${NIGHTSUM_DIR}
 
   SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/nightly/scheduler-nightsum.ipynb"
@@ -77,6 +101,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
   cp ${SCHEDULER_NIGHTSUM_SOURCE} $NIGHTSUM_FNAME
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NIGHTSUM_FNAME} ; done
 
   echo "Executing the nightsum notebook"
   date --iso=s
@@ -94,7 +119,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
       ${NIGHTSUM_FNAME}
 
   chmod go+r ${NIGHTSUM_FNAME_BASE}.html
-
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NIGHTSUM_FNAME_BASE} ; done
 
   echo "Preparing directory for this prenight comparison"
   date --iso=s
@@ -107,6 +132,13 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   chmod go+rx "${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
   chmod go+rx "${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx ${COMPARE_NIGHT_DIR}
+
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${COMPARE_NIGHT_DIR}"
+  done
+
   cd ${COMPARE_NIGHT_DIR}
 
   if [ -z ${COMPARE_NIGHT_SOURCE+xxx} ] ; then
@@ -120,6 +152,7 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
   cp ${COMPARE_NIGHT_SOURCE} $COMPARE_NIGHT_FNAME
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${COMPARE_NIGHT_FNAME} ; done
 
   echo "Executing the compare prenight notebook"
   date --iso=s
@@ -155,6 +188,7 @@ time jupyter nbconvert \
     ${SCHEDVIEW_TOC_FNAME}
 
 chmod o+r "/sdf/data/rubin/shared/scheduler/reports/report_toc.html"
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw /sdf/data/rubin/shared/scheduler/reports/report_toc.html ; done
 echo "Building the public nightsum"
 
 SCHEDVIEW_VISIT_ORIGIN='lsstcam'
@@ -163,6 +197,13 @@ mkdir -p ${PUBLIC_NIGHTSUM_DIR}
 chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}"
 chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}"
 chmod go+rx ${PUBLIC_NIGHTSUM_DIR}
+
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+  setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}"
+  setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}"
+  setfacl -m ${SCHEDULER_GROUP_USER}:rwX ${PUBLIC_NIGHTSUM_DIR}
+done
+
 cd ${PUBLIC_NIGHTSUM_DIR}
 
 PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
@@ -180,10 +221,12 @@ jupyter nbconvert \
     ${NIGHTSUM_FNAME}
 
 chmod go+r ${NIGHTSUM_FNAME_BASE}.html
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NIGHTSUM_FNAME_BASE}.html ; done
 echo "Building the public index"
 
 cd /sdf/group/rubin/web_data/sim-data/schedview/reports
 cp /sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/schedview_reports_toc.ipynb .
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw schedview_reports_toc.ipynb ; done
 jupyter nbconvert \
     --to html \
     --execute \
@@ -195,6 +238,10 @@ jupyter nbconvert \
 
 cp schedview_reports_toc.html index.html
 chmod go+r schedview_reports_toc.html index.html
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+  setfacl -m ${SCHEDULER_GROUP_USER}:rw schedview_reports_toc.html
+  setfacl -m ${SCHEDULER_GROUP_USER}:rw index.html
+done
 
 echo "Done."
 date --iso=s

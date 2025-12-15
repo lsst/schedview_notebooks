@@ -54,6 +54,9 @@ fi
 echo "Setting parameters"
 date --iso=s
 
+newgrp rubin_users
+SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
+
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
 
 if [ -z ${SCHEDVIEW_DAY_OBS+xxx} ] ; then
@@ -102,6 +105,11 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   chmod o+rx "${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod o+rx "${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod o+rx ${PRENIGHT_DIR}
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${PRENIGHT_DIR}"
+  done
   cd ${PRENIGHT_DIR}
 
   if [ -z ${PRENIGHT_SOURCE+xxx} ] ; then
@@ -115,6 +123,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
   cp ${PRENIGHT_SOURCE} $PRENIGHT_FNAME
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${PRENIGHT_FNAME} ; done
 
   echo "Executing the prenight notebook"
   date --iso=s
@@ -132,6 +141,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
       ${PRENIGHT_FNAME}
   
   chmod o+r ${PRENIGHT_FNAME_BASE}.html
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${PRENIGHT_FNAME_BASE}.html ; done
 
   echo "Preparing multiprenight directory for this dayobs"
   date --iso=s
@@ -144,6 +154,11 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   chmod go+rx "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
   chmod go+rx ${MULTIPRENIGHT_DIR}
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${MULTIPRENIGHT_DIR}"
+  done
   cd ${MULTIPRENIGHT_DIR}
 
   if [ -z ${MULTIPRENIGHT_SOURCE+xxx} ] ; then
@@ -157,6 +172,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   # Do not just blindly check out of git, but copy from somewhere hand
   # checked.
   cp ${MULTIPRENIGHT_SOURCE} $MULTIPRENIGHT_FNAME
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_FNAME} ; done
 
   echo "Executing the multiprenight notebook"
   date --iso=s
@@ -174,7 +190,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
       ${MULTIPRENIGHT_FNAME}
 
   chmod go+r ${MULTIPRENIGHT_FNAME_BASE}.html
-
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_FNAME_BASE}.html ; done
 done
 
 echo "Rebuilding schedview report table of contents"
@@ -192,6 +208,7 @@ time jupyter nbconvert \
     ${SCHEDVIEW_TOC_FNAME}
 
 chmod go+r /sdf/data/rubin/shared/scheduler/reports/report_toc.html
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw /sdf/data/rubin/shared/scheduler/reports/report_toc.html ; done
 
 echo "Done."
 date --iso=s
