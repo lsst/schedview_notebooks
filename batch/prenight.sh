@@ -37,6 +37,20 @@ fi
 
 set -o xtrace
 
+# The gate files provide a mechanism that scheduler group members
+# can use to stop this script from running, so if a cron job is
+# running it it can still be stopped when the owner is not
+# available.
+# This is accomplished by deleting the gate file
+# with the name of the owner of the cron job.
+CRONGATE=/sdf/data/rubin/shared/scheduler/cron_gates/prenight/${USER}
+echo "Checking gatefile ${CRONGATE}"
+if test ! -e ${CRONGATE} ; then
+    echo "Aborting because ${CRONGATE} does not exist."
+    echo "See /sdf/data/rubin/shared/scheduler/cron_gates/README.txt"
+    exit 1
+fi
+
 echo "Setting parameters"
 date --iso=s
 
