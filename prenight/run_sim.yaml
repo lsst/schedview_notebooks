@@ -17,6 +17,7 @@ parameters:
     type: boolean
     description: Start from most recent snapshot instead of config
     default: false
+
 schedule_enabled: true
 schedule:
   - freq: "daily"
