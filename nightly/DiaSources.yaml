@@ -1,0 +1,14 @@
+title: DiaSources
+description: Look at NumGoodDiaSources per visit
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs:
+    type: string
+    description: "Date of observation (YYYYMMDD)"
+    format: dayobs
+    dynamic_default: "yesterday"
+schedule:
+  - freq: "daily"
+    hour: 13
