@@ -13,6 +13,14 @@ parameters:
     type: string
     description: Number of nights to simulate
     default: "1"
+  start_from_snapshot:
+    type: boolean
+    description: Start from latest snapshot in day_obs instead of config
+    default: false
+  start_midway_in_night:
+    type: boolean
+    description: Start from configuration after current acquired visits in day_obs
+    default: false
 schedule_enabled: true
 schedule:
   - freq: "daily"
