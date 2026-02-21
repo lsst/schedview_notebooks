@@ -6,20 +6,24 @@ authors:
 parameters:
   day_obs:
     type: string
-    description: "Date of observation (YYYYMMDD)"
+    description: "Date of start of simulation (YYYYMMDD)."
     format: dayobs
     dynamic_default: "today"
   sim_nights:
     type: string
-    description: Number of nights to simulate
+    description: "Number of nights to simulate."
     default: "1"
   start_from_snapshot:
     type: boolean
-    description: Start from latest snapshot in day_obs instead of config
+    description: "Start simulation from latest snapshot in day_obs instead of config."
     default: false
-  start_midway_in_night:
+  start_after_last_visit:
     type: boolean
-    description: Start from configuration after current acquired visits in day_obs
+    description: "Start from config, add the visits in the night so far, then continue simulation after the end of the last visit "
+    default: true
+  run_no_downtime:
+    type: boolean
+    description: "Run sunset to sunrise with no downtime, from config."
     default: false
 schedule_enabled: true
 schedule:
