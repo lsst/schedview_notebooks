@@ -9,6 +9,10 @@ parameters:
     description: "Date of observation (YYYYMMDD)"
     format: dayobs
     dynamic_default: "yesterday"
+  make_sky_plots:
+    type: boolean
+    description: "Create sky maps of visit locations."
+    default: True
 schedule:
   - freq: "daily"
     hour: 13
