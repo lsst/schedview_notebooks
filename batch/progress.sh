@@ -49,6 +49,8 @@ set -o xtrace
 
 echo "Setting parameters"
 
+SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
+
 newgrp rubin_users
 SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
 
@@ -108,6 +110,8 @@ time jupyter nbconvert \
     --to html \
     --execute \
     --no-input \
+    --template templates \
+    --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
     --ExecutePreprocessor.kernel_name=python3 \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
@@ -127,6 +131,8 @@ time jupyter nbconvert \
     --to html \
     --execute \
     --no-input \
+    --template templates \
+    --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
     --ExecutePreprocessor.kernel_name=python3 \
     --ExecutePreprocessor.startup_timeout=3600 \
     --ExecutePreprocessor.timeout=3600 \
