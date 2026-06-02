@@ -49,9 +49,11 @@ set -o xtrace
 
 echo "Setting parameters"
 
-SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
-
 newgrp rubin_users
+SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
+NB_EXEC_DIR="/sdf/data/rubin/shared/scheduler/reports"
+PUBLICATION_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports"
+
 SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
 
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
@@ -80,15 +82,15 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   echo "Preparing directory for this nightsum"
   date --iso=s
   # Make the directory in which to work and save the html file
-  NIGHTSUM_DIR="/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  NIGHTSUM_DIR="${NB_EXEC_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${NIGHTSUM_DIR}
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
-  chmod go+rx "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod go+rx "${NB_EXEC_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  chmod go+rx "${NB_EXEC_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
   chmod go+rx ${NIGHTSUM_DIR}
 
   for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
-    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
-    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/data/rubin/shared/scheduler/reports/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${NB_EXEC_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+    setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${NB_EXEC_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
     setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${NIGHTSUM_DIR}"
   done
 
@@ -123,13 +125,21 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
       ${NIGHTSUM_FNAME}
 
   chmod go+r ${NIGHTSUM_FNAME_BASE}.html
-  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NIGHTSUM_FNAME_BASE} ; done
+
+  NIGHTSUM_PUB_DIR="${PUBLICATION_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  mkdir -p -m 755 "${NIGHTSUM_PUB_DIR}"
+  chmod 755 "${PUBLICATION_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod 755 "${PUBLICATION_DIR}/nightsum/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  NIGHTSUM_PUB_FNAME="${NIGHTSUM_PUB_DIR}/${NIGHTSUM_FNAME_BASE}.html"
+  cp "${NIGHTSUM_FNAME_BASE}.html" "${NIGHTSUM_PUB_FNAME}"
+  chmod 644 "${NIGHTSUM_PUB_FNAME}"
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NIGHTSUM_PUB_FNAME} ; done
 
   echo "Preparing directory for this prenight comparison"
   date --iso=s
   # Make the directory in which to work and save the html file
   if [ -x ${COMPARE_NIGHT_BASE_DIR+xxx} ] ; then
-    COMPARE_NIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/compareprenight"
+    COMPARE_NIGHT_BASE_DIR="${NB_EXEC_DIR}/compareprenight"
   fi
   COMPARE_NIGHT_DIR="${COMPARE_NIGHT_BASE_DIR}/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${COMPARE_NIGHT_DIR}
@@ -176,65 +186,21 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
       ${COMPARE_NIGHT_FNAME}
 
   chmod go+r ${COMPARE_NIGHT_FNAME_BASE}.html
+
+  COMPPRE_PUB_DIR="${PUBLICATION_DIR}/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  mkdir -p -m 755 "${COMPPRE_PUB_DIR}"
+  chmod 755 "${PUBLICATION_DIR}/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod 755 "${PUBLICATION_DIR}/compareprenight/${SCHEDVIEW_VISIT_ORIGIN}/${DAYOBS_YY}"
+  COMPPRE_PUB_FNAME="${COMPPRE_PUB_DIR}/${COMPARE_NIGHT_FNAME_BASE}.html"
+  cp "${COMPARE_NIGHT_FNAME_BASE}.html" "${COMPARE_NIGHT_PUB_FNAME}"
+  chmod 644 "${COMPARE_NIGHT_PUB_FNAME}"
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${COMPARE_NIGHT_PUB_FNAME} ; done
+
 done
 
-
-echo "Rebuilding schedview report table of contents"
-date --iso=s
-SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/contents/pregenerated_toc.ipynb"
-SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
-cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
-time jupyter nbconvert \
-    --to html \
-    --execute \
-    --no-input \
-    --template templates \
-    --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
-    --ExecutePreprocessor.kernel_name=python3 \
-    --ExecutePreprocessor.startup_timeout=3600 \
-    --ExecutePreprocessor.timeout=3600 \
-    ${SCHEDVIEW_TOC_FNAME}
-
-chmod o+r "/sdf/data/rubin/shared/scheduler/reports/report_toc.html"
-for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw /sdf/data/rubin/shared/scheduler/reports/report_toc.html ; done
-echo "Building the public nightsum"
-
-SCHEDVIEW_VISIT_ORIGIN='lsstcam'
-PUBLIC_NIGHTSUM_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
-mkdir -p ${PUBLIC_NIGHTSUM_DIR}
-chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}"
-chmod go+rx "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}"
-chmod go+rx ${PUBLIC_NIGHTSUM_DIR}
-
-for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
-  setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}"
-  setfacl -m ${SCHEDULER_GROUP_USER}:rwX "/sdf/group/rubin/web_data/sim-data/schedview/reports/nightsum/lsstcam/${DAYOBS_YY}/${DAYOBS_MM}"
-  setfacl -m ${SCHEDULER_GROUP_USER}:rwX ${PUBLIC_NIGHTSUM_DIR}
-done
-
-cd ${PUBLIC_NIGHTSUM_DIR}
-
-PUBLIC_SCHEDULER_NIGHTSUM_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/nightsum.ipynb"
-NIGHTSUM_FNAME_BASE="nightsum_${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}"
-NIGHTSUM_FNAME=${NIGHTSUM_FNAME_BASE}.ipynb
-cp ${PUBLIC_SCHEDULER_NIGHTSUM_SOURCE} $NIGHTSUM_FNAME
-
-jupyter nbconvert \
-    --to html \
-    --execute \
-    --no-input \
-    --template templates \
-    --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
-    --ExecutePreprocessor.kernel_name=python3 \
-    --ExecutePreprocessor.startup_timeout=3600 \
-    --ExecutePreprocessor.timeout=3600 \
-    ${NIGHTSUM_FNAME}
-
-chmod go+r ${NIGHTSUM_FNAME_BASE}.html
-for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NIGHTSUM_FNAME_BASE}.html ; done
 echo "Building the public index"
 
-cd /sdf/group/rubin/web_data/sim-data/schedview/reports
+cd "${PUBLICATION_DIR}"
 cp /sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/schedview_reports_toc.ipynb .
 for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw schedview_reports_toc.ipynb ; done
 jupyter nbconvert \
