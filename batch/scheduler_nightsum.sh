@@ -11,6 +11,8 @@
 #SBATCH --time=1:00:00                 # Wall time (hh:mm:ss)
 
 echo "******** START of scheduler_nightsum.sh **********"
+newgrp rubin_users
+set -euo pipefail
 
 if [ -z $(command -v prenight_inventory ) ] ; then
   # If prenight_inventory is not already in our environment,
@@ -49,11 +51,9 @@ set -o xtrace
 
 echo "Setting parameters"
 
-newgrp rubin_users
 SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
 NB_EXEC_DIR="/sdf/data/rubin/shared/scheduler/reports"
 PUBLICATION_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports"
-
 SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
 
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
