@@ -11,7 +11,8 @@
 #SBATCH --time=1:00:00                 # Wall time (hh:mm:ss)
 
 echo "******** START of PRENIGHT.sh **********"
-
+newgrp rubin_users
+set -euo pipefail
 
 if [ -z $(command -v prenight_inventory ) ] ; then
   # If prenight_inventory is not already in our environment,
@@ -31,8 +32,8 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   source /sdf/group/rubin/sw/w_latest/loadLSST.sh
   conda activate /sdf/data/rubin/shared/scheduler/envs/prenight_like_rsp_w2025_36
 
-  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/rubin_sim-2.4.1.dev140+g532ec2c46:${PYTHONPATH}
-  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/schedview-0.19.2.dev11+g44bf8dd:${PYTHONPATH}
+  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/rubin_sim:${PYTHONPATH}
+  export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/schedview:${PYTHONPATH}
 fi
 
 set -o xtrace
@@ -54,10 +55,10 @@ fi
 echo "Setting parameters"
 date --iso=s
 
-SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
-
-newgrp rubin_users
 SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
+SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
+NB_EXEC_DIR="/sdf/data/rubin/shared/scheduler/reports"
+PUBLICATION_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports"
 
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
 
@@ -100,7 +101,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   date --iso=s
   # Make the directory in which to work and save the html file
   if [ -x ${PRENIGHT_BASE_DIR+xxx} ] ; then
-    PRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/prenight"
+    PRENIGHT_BASE_DIR="${NB_EXEC_DIR}/prenight"
   fi
   PRENIGHT_DIR="${PRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${PRENIGHT_DIR}
@@ -147,11 +148,20 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   chmod o+r ${PRENIGHT_FNAME_BASE}.html
   for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${PRENIGHT_FNAME_BASE}.html ; done
 
+  PRENIGHT_PUB_DIR="${PUBLICATION_DIR}/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  mkdir -p -m 755 "${PRENIGHT_PUB_DIR}"
+  chmod 755 "${PUBLICATION_DIR}/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod 755 "${PUBLICATION_DIR}/prenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  PRENIGHT_PUB_FNAME="${PRENIGHT_PUB_DIR}/${PRENIGHT_FNAME_BASE}.html"
+  cp "${PRENIGHT_FNAME_BASE}.html" "${PRENIGHT_PUB_FNAME}"
+  chmod 644 "${PRENIGHT_PUB_FNAME}"
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${PRENIGHT_PUB_FNAME} ; done
+
   echo "Preparing multiprenight directory for this dayobs"
   date --iso=s
   # Make the directory in which to work and save the html file
   if [ -x ${MULTIPRENIGHT_BASE_DIR+xxx} ] ; then
-    MULTIPRENIGHT_BASE_DIR="/sdf/data/rubin/shared/scheduler/reports/multiprenight"
+    MULTIPRENIGHT_BASE_DIR="${NB_EXEC_DIR}/multiprenight"
   fi
   MULTIPRENIGHT_DIR="${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
   mkdir -p ${MULTIPRENIGHT_DIR}
@@ -163,6 +173,7 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
     setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${MULTIPRENIGHT_BASE_DIR}/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
     setfacl -m ${SCHEDULER_GROUP_USER}:rwX "${MULTIPRENIGHT_DIR}"
   done
+
   cd ${MULTIPRENIGHT_DIR}
 
   if [ -z ${MULTIPRENIGHT_SOURCE+xxx} ] ; then
@@ -197,12 +208,22 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
 
   chmod go+r ${MULTIPRENIGHT_FNAME_BASE}.html
   for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_FNAME_BASE}.html ; done
+
+  MULTIPRENIGHT_PUB_DIR="${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+  mkdir -p -m 755 "${MULTIPRENIGHT_PUB_DIR}"
+  chmod 755 "${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+  chmod 755 "${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+  MULTIPRENIGHT_PUB_FNAME="${MULTIPRENIGHT_PUB_DIR}/${MULTIPRENIGHT_FNAME_BASE}.html"
+  cp "${MULTIPRENIGHT_FNAME_BASE}.html" "${MULTIPRENIGHT_PUB_FNAME}"
+  chmod 644 "${MULTIPRENIGHT_PUB_FNAME}"
+  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_PUB_FNAME} ; done
+
 done
 
 echo "Rebuilding schedview report table of contents"
 date --iso=s
 SCHEDVIEW_TOC_SOURCE="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/contents/pregenerated_toc.ipynb"
-SCHEDVIEW_TOC_FNAME="/sdf/data/rubin/shared/scheduler/reports/report_toc.ipynb"
+SCHEDVIEW_TOC_FNAME="${NB_EXEC_DIR}/report_toc.ipynb"
 cp ${SCHEDVIEW_TOC_SOURCE} ${SCHEDVIEW_TOC_FNAME}
 time jupyter nbconvert \
     --to html \
@@ -215,8 +236,31 @@ time jupyter nbconvert \
     --ExecutePreprocessor.timeout=3600 \
     ${SCHEDVIEW_TOC_FNAME}
 
-chmod go+r /sdf/data/rubin/shared/scheduler/reports/report_toc.html
-for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw /sdf/data/rubin/shared/scheduler/reports/report_toc.html ; done
+chmod go+r ${NB_EXEC_DIR}/report_toc.html
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${NB_EXEC_DIR}/report_toc.html ; done
+
+echo "Building the public index"
+
+cd "${PUBLICATION_DIR}"
+cp /sdf/data/rubin/shared/scheduler/packages/schedview_notebooks/public/schedview_reports_toc.ipynb .
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw schedview_reports_toc.ipynb ; done
+jupyter nbconvert \
+    --to html \
+    --execute \
+    --no-input \
+    --template templates \
+    --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
+    --ExecutePreprocessor.kernel_name=python3 \
+    --ExecutePreprocessor.startup_timeout=3600 \
+    --ExecutePreprocessor.timeout=3600 \
+    schedview_reports_toc.ipynb
+
+cp schedview_reports_toc.html index.html
+chmod go+r schedview_reports_toc.html index.html
+for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do 
+  setfacl -m ${SCHEDULER_GROUP_USER}:rw schedview_reports_toc.html
+  setfacl -m ${SCHEDULER_GROUP_USER}:rw index.html
+done
 
 echo "Done."
 date --iso=s
