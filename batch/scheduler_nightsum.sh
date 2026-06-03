@@ -12,7 +12,7 @@
 
 echo "******** START of scheduler_nightsum.sh **********"
 newgrp rubin_users
-set -euo pipefail
+set -eo pipefail
 
 if [ -z $(command -v prenight_inventory ) ] ; then
   # If prenight_inventory is not already in our environment,
@@ -32,6 +32,8 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   source /sdf/group/rubin/sw/w_latest/loadLSST.sh
   conda activate /sdf/data/rubin/shared/scheduler/envs/like_rsp_w2025_36
 fi
+
+set -u
 
 # The gate files provide a mechanism that scheduler group members
 # can use to stop this script from running, so if a cron job is
