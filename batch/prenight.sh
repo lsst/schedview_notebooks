@@ -12,7 +12,7 @@
 
 echo "******** START of PRENIGHT.sh **********"
 newgrp rubin_users
-set -euo pipefail
+set -eo pipefail
 
 if [ -z $(command -v prenight_inventory ) ] ; then
   # If prenight_inventory is not already in our environment,
@@ -36,6 +36,7 @@ if [ -z $(command -v prenight_inventory ) ] ; then
   export PYTHONPATH=/sdf/data/rubin/shared/scheduler/packages/schedview:${PYTHONPATH}
 fi
 
+set -u
 set -o xtrace
 
 # The gate files provide a mechanism that scheduler group members
@@ -189,34 +190,36 @@ for SCHEDVIEW_INSTRUMENT in ${SCHEDVIEW_INSTRUMENTS} ; do
   cp ${MULTIPRENIGHT_SOURCE} $MULTIPRENIGHT_FNAME
   for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_FNAME} ; done
 
-  echo "Executing the multiprenight notebook"
-  date --iso=s
-  # At the USDF, the timings can be very slow compared to running on a laptop,
-  # so set the timeouts really high.
-  # Setting the kernel_name to python3 uses the kernel from the activated
-  # conda environment.
-  time jupyter nbconvert \
-      --to html \
-      --execute \
-      --no-input \
-      --template templates \
-      --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
-      --ExecutePreprocessor.kernel_name=python3 \
-      --ExecutePreprocessor.startup_timeout=3600 \
-      --ExecutePreprocessor.timeout=3600 \
-      ${MULTIPRENIGHT_FNAME}
+  if [ ${SCHEDVIEW_INSTRUMENT} == "lsstcam" ] ; then 
+    echo "Executing the multiprenight notebook"
+    date --iso=s
+    # At the USDF, the timings can be very slow compared to running on a laptop,
+    # so set the timeouts really high.
+    # Setting the kernel_name to python3 uses the kernel from the activated
+    # conda environment.
+    time jupyter nbconvert \
+        --to html \
+        --execute \
+        --no-input \
+        --template templates \
+        --TemplateExporter.extra_template_basedirs=${SCHEDVIEW_NB_REPO} \
+        --ExecutePreprocessor.kernel_name=python3 \
+        --ExecutePreprocessor.startup_timeout=3600 \
+        --ExecutePreprocessor.timeout=3600 \
+        ${MULTIPRENIGHT_FNAME}
 
-  chmod go+r ${MULTIPRENIGHT_FNAME_BASE}.html
-  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_FNAME_BASE}.html ; done
+    chmod go+r ${MULTIPRENIGHT_FNAME_BASE}.html
+    for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_FNAME_BASE}.html ; done
 
-  MULTIPRENIGHT_PUB_DIR="${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
-  mkdir -p -m 755 "${MULTIPRENIGHT_PUB_DIR}"
-  chmod 755 "${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
-  chmod 755 "${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
-  MULTIPRENIGHT_PUB_FNAME="${MULTIPRENIGHT_PUB_DIR}/${MULTIPRENIGHT_FNAME_BASE}.html"
-  cp "${MULTIPRENIGHT_FNAME_BASE}.html" "${MULTIPRENIGHT_PUB_FNAME}"
-  chmod 644 "${MULTIPRENIGHT_PUB_FNAME}"
-  for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_PUB_FNAME} ; done
+    MULTIPRENIGHT_PUB_DIR="${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}/${DAYOBS_DD}"
+    mkdir -p -m 755 "${MULTIPRENIGHT_PUB_DIR}"
+    chmod 755 "${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}/${DAYOBS_MM}"
+    chmod 755 "${PUBLICATION_DIR}/multiprenight/${SCHEDVIEW_INSTRUMENT}/${DAYOBS_YY}"
+    MULTIPRENIGHT_PUB_FNAME="${MULTIPRENIGHT_PUB_DIR}/${MULTIPRENIGHT_FNAME_BASE}.html"
+    cp "${MULTIPRENIGHT_FNAME_BASE}.html" "${MULTIPRENIGHT_PUB_FNAME}"
+    chmod 644 "${MULTIPRENIGHT_PUB_FNAME}"
+    for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${MULTIPRENIGHT_PUB_FNAME} ; done
+  fi
 
 done
 
