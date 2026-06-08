@@ -56,6 +56,7 @@ echo "Setting parameters"
 SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
 NB_EXEC_DIR="/sdf/data/rubin/shared/scheduler/reports"
 PUBLICATION_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports"
+export SCHEDVIEW_CACHE_DIR="/sdf/data/rubin/user/neilsen/data/schedview_cache"
 SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
 
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
