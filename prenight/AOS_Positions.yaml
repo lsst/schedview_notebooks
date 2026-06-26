@@ -1,0 +1,19 @@
+title: AOS positions
+description: Show where the FBS will mask the sky 
+authors:
+  - name: Lynne Jones
+    slack: Lynne
+parameters:
+  day_obs:
+    type: string
+    description: "DayObs To Examine (YYYYMMDD)."
+    format: dayobs
+    dynamic_default: "today"
+  delta_hours:
+    type: string
+    description: "Hour spacing between snapshots."
+    default: "2"
+schedule_enabled: False
+schedule:
+  - freq: "daily"
+    hour: 15
