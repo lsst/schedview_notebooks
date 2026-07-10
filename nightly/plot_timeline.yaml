@@ -1,0 +1,25 @@
+title: Observatory Status Timeline
+description: >
+  Rubin Observatory nightly status and visit data visualization.
+  Shows telescope status states (OPERATIONAL, FAULT, WEATHER, DOWNTIME, UNKNOWN, IDLE),
+  filter band usage, dome shutter intervals, and cumulative statistics per night.
+authors:
+  - name: Robert Lupton
+    slack: rhl
+parameters:
+  ndays:
+    type: integer
+    description: "Number of observing nights to display, counted backwards from the most recent data"
+    default: 7
+  date_start:
+    type: string
+    description: "Start date (YYYY-MM-DD). Leave empty to use ndays."
+    default: ""
+  date_end:
+    type: string
+    description: "End date exclusive (YYYY-MM-DD). Leave empty for most recent data."
+    default: ""
+schedule_enabled: true
+schedule:
+  - freq: "daily"
+    hour: 14
