@@ -19,6 +19,10 @@ parameters:
     type: string
     description: "End date exclusive (YYYY-MM-DD). Leave empty for most recent data."
     default: ""
+  stacked_total:
+    type: boolean
+    description: "Stack cumulative state totals plot (False for separate lines per state)."
+    default: true
 schedule_enabled: true
 schedule:
   - freq: "daily"
