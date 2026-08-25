@@ -56,9 +56,8 @@ echo "Setting parameters"
 SCHEDVIEW_NB_REPO="/sdf/data/rubin/shared/scheduler/packages/schedview_notebooks"
 NB_EXEC_DIR="/sdf/data/rubin/shared/scheduler/reports"
 PUBLICATION_DIR="/sdf/group/rubin/web_data/sim-data/schedview/reports"
-export SCHEDVIEW_CACHE_DIR="/sdf/data/rubin/user/neilsen/data/schedview_cache"
 SCHEDULER_GROUP_USERS="lynnej neilsen yoachim"
-SCHEDVIEW_CACHE_DIR="/sdf/group/rubin/web_data/sim-data/completed/simonyi"
+export SCHEDVIEW_CACHE_DIR="/sdf/group/rubin/web_data/sim-data/completed"
 
 export ACCESS_TOKEN_FILE=${HOME}/.lsst/usdf_access_token
 
@@ -148,12 +147,12 @@ for SCHEDVIEW_VISIT_ORIGIN in ${SCHEDVIEW_INSTRUMENTS} ; do
   # The notebook execution also generates parquet files of visits.
   # Make these visible too.
   
-  ALL_VISITS_FNAME="${SCHEDVIEW_DIR}/${TELESCOPE}/visits_${INSTRUMENT}.parquet"
-  chmode go+r "${ALL_VISITS_FNAME}"
+  ALL_VISITS_FNAME="${SCHEDVIEW_CACHE_DIR}/visits_${SCHEDVIEW_VISIT_ORIGIN}.parquet"
+  chmod go+r "${ALL_VISITS_FNAME}"
   for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${ALL_VISITS_FNAME} ; done  
 
   DAYOBS_VISITS_FNAME="${SCHEDVIEW_CACHE_DIR}/${TELESCOPE}/${DAYOBS_YY}/${DAYOBS_YY}-${DAYOBS_MM}-${DAYOBS_DD}.parquet"
-  chmode go+r "${ALL_VISITS_CACHE_FNAME}"
+  chmod go+r "${DAYOBS_VISITS_FNAME}"
   for SCHEDULER_GROUP_USER in ${SCHEDULER_GROUP_USERS}; do setfacl -m ${SCHEDULER_GROUP_USER}:rw ${DAYOBS_VISITS_FNAME} ; done  
 
   echo "Preparing directory for this prenight comparison"
